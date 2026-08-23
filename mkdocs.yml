@@ -1,48 +1,113 @@
 site_name: Tech Tutorials
+site_url: https://itskrsna.github.io/tech-tutorials/
 site_description: ".NET / C# tutorial curriculum and other technical write-ups"
+site_author: itskrsna
 repo_url: https://github.com/itskrsna/tech-tutorials
 repo_name: itskrsna/tech-tutorials
+edit_uri: edit/main/dotnet-csharp/
 
 docs_dir: dotnet-csharp
 
+# Fixes a Python-Markdown quirk that truncates any heading ending in "C#"
+# (221 files) — see mkdocs_hashheader_fix.py for the full explanation.
+hooks:
+  - mkdocs_hashheader_fix.py
+
 theme:
   name: material
+  language: en
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
   palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
+      primary: deep purple
+      accent: deep purple
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      primary: deep purple
+      accent: deep purple
       toggle:
         icon: material/brightness-4
-        name: Switch to light mode
+        name: Switch to system preference
   features:
-    - navigation.sections
+    # navigation.sections intentionally REMOVED — with 18 modules / 393 pages
+    # it forced the entire nav tree open on every page.
+    - navigation.prune
     - navigation.indexes
+    - navigation.tracking
     - navigation.top
+    - navigation.footer
+    - navigation.instant
+    - navigation.instant.progress
+    - toc.follow
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
+    - content.tabs.link
+    - content.action.edit
+
+extra_css:
+  - stylesheets/extra.css
 
 markdown_extensions:
-  - tables
   - admonition
+  - attr_list
+  - md_in_html
+  - tables
   - toc:
       permalink: true
+      permalink_title: Link to this section
+      toc_depth: 3
+  - pymdownx.betterem
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 plugins:
-  - search
+  # CamelCase-aware separator: makes DbContext, IDisposable, ConfigureAwait
+  # findable by their word parts.
+  - search:
+      separator: '[\s​\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])|(?<=\D)(?=\d)|(?<=\d)(?=\D)'
   - awesome-pages
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/itskrsna
+      name: itskrsna on GitHub
 
 exclude_docs: |
   _template/
