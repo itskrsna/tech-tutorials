@@ -1,0 +1,449 @@
+/* ==========================================================================
+   Tech Tutorials — mkdocs-material overrides
+   Wired via mkdocs.yml -> extra_css: [stylesheets/extra.css]
+   Material's root font-size is 20px, so 1rem = 20px throughout this file.
+   Every colour is either a Material custom property or a --tt-* token defined
+   twice: once under [data-md-color-scheme="default"], once under "slate".
+   ========================================================================== */
+
+/* -------------------------------------------------- 1. Tokens ------------ */
+:root {
+  --tt-measure:   76ch;      /* prose reading measure */
+  --tt-radius:    .5rem;
+  --tt-radius-sm: .3rem;
+}
+
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:        #512bd4;    /* .NET purple */
+  --md-primary-fg-color--light: #6f4ee0;
+  --md-primary-fg-color--dark:  #3b1fa3;
+  --md-accent-fg-color:         #6f4ee0;
+  --md-typeset-a-color:         #5326c8;
+
+  --tt-rule:           rgba(15, 23, 42, .10);
+  --tt-rule-strong:    rgba(15, 23, 42, .20);
+  --tt-surface:        rgba(15, 23, 42, .035);
+  --tt-surface-strong: rgba(15, 23, 42, .065);
+  --tt-nav-active-bg:  rgba(81, 43, 212, .10);
+  --tt-shadow: 0 1px 2px rgba(15,23,42,.06), 0 2px 10px rgba(15,23,42,.04);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:        #4a27c2;
+  --md-primary-fg-color--light: #7c5cff;
+  --md-primary-fg-color--dark:  #331a8a;
+  --md-accent-fg-color:         #b3a1ff;
+  /* #512bd4 has too little contrast on slate; links get a light tint. */
+  --md-typeset-a-color:         #b3a1ff;
+
+  --tt-rule:           rgba(255, 255, 255, .10);
+  --tt-rule-strong:    rgba(255, 255, 255, .22);
+  --tt-surface:        rgba(255, 255, 255, .04);
+  --tt-surface-strong: rgba(255, 255, 255, .075);
+  --tt-nav-active-bg:  rgba(179, 161, 255, .14);
+  --tt-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+}
+
+/* -------------------------------------------------- 2. Layout ------------ */
+/* Stock Material caps at 61rem; minus two 12.1rem sidebars the reading column
+   is ~37rem — far too narrow for 4-6 column comparison tables. */
+.md-grid { max-width: 84rem; }
+
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary   { width: 15rem; }    /* 74-char titles wrap less */
+  .md-sidebar--secondary { width: 13rem; }
+}
+
+/* Reading measure applies to PROSE only. Tables, code and diagrams live in
+   their own wrappers and keep the full column width. */
+.md-typeset > p,
+.md-typeset > ul,
+.md-typeset > ol,
+.md-typeset > dl,
+.md-typeset > blockquote,
+.md-typeset > .admonition,
+.md-typeset > details,
+.md-typeset > h1,
+.md-typeset > h2,
+.md-typeset > h3,
+.md-typeset > h4 { max-width: var(--tt-measure); }
+
+.md-typeset > .grid { max-width: none; }      /* cards are a layout element */
+
+/* -------------------------------------------------- 3. Typography -------- */
+.md-typeset {
+  font-size: .85rem;        /* ~17px; Material default is .8rem — these are 2,200-word reads */
+  line-height: 1.72;
+  letter-spacing: -.002em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.md-typeset p  { margin: 0 0 1.15em; }
+.md-typeset ul,
+.md-typeset ol { margin: 0 0 1.15em; }
+.md-typeset li { margin-bottom: .5em; line-height: 1.65; }
+.md-typeset li > ul,
+.md-typeset li > ol { margin: .5em 0; }
+.md-typeset li:last-child { margin-bottom: 0; }
+
+.md-typeset h1 {
+  font-size: 1.85rem;
+  line-height: 1.18;
+  font-weight: 700;
+  letter-spacing: -.022em;
+  margin: 0 0 1.4rem;
+  color: var(--md-default-fg-color);
+}
+
+/* A hairline rule above every H2 so the ~8 sections per lesson read as
+   distinct chapters instead of one continuous scroll. */
+.md-typeset h2 {
+  font-size: 1.3rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -.012em;
+  margin: 2.6rem 0 .9rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--tt-rule);
+  color: var(--md-default-fg-color);
+}
+
+/* ...but never directly under the page title. */
+.md-typeset h1 + h2,
+.md-typeset > h2:first-child {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 1.4rem;
+}
+
+.md-typeset h3 {
+  font-size: 1.05rem;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: -.006em;
+  margin: 2rem 0 .6rem;
+}
+.md-typeset h4 {
+  font-size: .9rem;
+  line-height: 1.4;
+  font-weight: 700;
+  margin: 1.5rem 0 .5rem;
+  color: var(--md-default-fg-color);
+}
+.md-typeset h5,
+.md-typeset h6 {
+  font-size: .78rem;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+  margin: 1.3rem 0 .45rem;
+}
+
+/* Permalink anchors: on hover only, never crowding the heading. */
+.md-typeset .headerlink { opacity: 0; margin-left: .4em; transition: opacity 120ms; }
+.md-typeset h1:hover .headerlink,
+.md-typeset h2:hover .headerlink,
+.md-typeset h3:hover .headerlink,
+.md-typeset h4:hover .headerlink,
+.md-typeset .headerlink:focus { opacity: .55; }
+
+.md-typeset a {
+  color: var(--md-typeset-a-color);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  word-break: break-word;      /* long lesson links can't overflow on mobile */
+}
+.md-typeset a:hover { text-decoration: underline; color: var(--md-accent-fg-color); }
+
+.md-typeset blockquote {
+  margin: 1.4em 0;
+  padding: .7rem 1rem;
+  color: var(--md-default-fg-color);        /* Material dims this by default */
+  border-left: 3px solid var(--md-primary-fg-color);
+  background: var(--tt-surface);
+  border-radius: 0 var(--tt-radius) var(--tt-radius) 0;
+}
+.md-typeset blockquote > :last-child { margin-bottom: 0; }
+
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: .82rem;
+  border-radius: var(--tt-radius);
+  border-left-width: 3px;
+  box-shadow: var(--tt-shadow);
+}
+.md-typeset .admonition-title,
+.md-typeset summary { font-weight: 700; letter-spacing: -.005em; }
+
+/* -------------------------------------------------- 4. Code -------------- */
+/* CRITICAL: JetBrains Mono ligates => != >= <= into single arrow glyphs.
+   In a C# curriculum that misrepresents the actual source characters, so
+   ligatures are switched off everywhere code is rendered. */
+.md-typeset code,
+.md-typeset kbd,
+.md-typeset pre {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+}
+
+.md-typeset code {
+  font-size: .82em;
+  padding: .12em .38em;
+  border: 1px solid var(--tt-rule);
+  border-radius: var(--tt-radius-sm);
+  background-color: var(--md-code-bg-color);
+  color: var(--md-code-fg-color);
+  word-break: break-word;
+}
+
+/* ...but never a pill inside a fenced block or a heading. Lesson titles are
+   full of `switch`, `decimal`, `ref` — pills there look broken. */
+.md-typeset pre > code,
+.md-typeset .highlight code,
+.md-typeset .highlighttable code {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font-size: inherit;
+  word-break: normal;
+}
+.md-typeset h1 code,
+.md-typeset h2 code,
+.md-typeset h3 code,
+.md-typeset h4 code { font-size: .88em; border-color: transparent; }
+.md-typeset a code { color: inherit; }
+
+.md-typeset .highlight,
+.md-typeset .highlighttable {
+  margin: 1.4em 0;
+  border: 1px solid var(--tt-rule);
+  border-radius: var(--tt-radius);
+  box-shadow: var(--tt-shadow);
+  overflow: hidden;                  /* clips the corners; pre>code still scrolls */
+}
+.md-typeset pre { margin: 0; }
+.md-typeset pre > code {
+  font-size: .775rem;                /* absolute, so it isn't scaled twice */
+  line-height: 1.62;
+  padding: .9rem 1rem;
+  border-radius: 0;
+  overscroll-behavior-x: contain;
+}
+.md-typeset .highlighttable .linenos {
+  background: var(--tt-surface-strong);
+  border-right: 1px solid var(--tt-rule);
+}
+.md-typeset .highlight span.linenos,
+.md-typeset .highlight .linenodiv pre { opacity: .5; }
+
+/* -------------------------------------------------- 5. Tables ----------- */
+/* All 393 lessons have at least one, most 4-6 dense columns.
+   Material wraps them as
+     .md-typeset__scrollwrap > .md-typeset__table > table
+   and styles the inner wrapper `display: inline-block`, which makes the table
+   shrink-to-fit and silently IGNORE width:100%. Switching that wrapper to
+   `block` is what lets these tables use the widened column. The scrollwrap
+   keeps overflow-x:auto, so wide tables still scroll inside themselves. */
+.md-typeset__scrollwrap {
+  margin: 1.5em -.8rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.md-typeset__table { display: block; width: 100%; }
+
+.md-typeset table:not([class]) {
+  display: table;
+  width: 100%;
+  font-size: .765rem;
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--tt-rule);
+  border-radius: var(--tt-radius);
+  box-shadow: none;
+}
+.md-typeset table:not([class]) th {
+  padding: .65rem .8rem;
+  background: var(--tt-surface-strong);
+  color: var(--md-default-fg-color);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  text-align: left;
+  vertical-align: bottom;
+  border-bottom: 1px solid var(--tt-rule-strong);
+  min-width: 5rem;
+}
+.md-typeset table:not([class]) td {
+  padding: .6rem .8rem;
+  vertical-align: top;
+  border-top: 1px solid var(--tt-rule);
+}
+/* First column is the "Aspect"/"Lesson" column in nearly every table here. */
+.md-typeset table:not([class]) td:first-child { color: var(--md-default-fg-color); }
+.md-typeset table:not([class]) tbody tr:nth-child(2n) { background: var(--tt-surface); }
+.md-typeset table:not([class]) tbody tr:hover        { background: var(--tt-surface-strong); }
+/* Long code spans in cells must wrap, not widen the table forever. */
+.md-typeset table:not([class]) td code { white-space: normal; }
+
+/* -------------------------------------------------- 6. Mermaid ---------- */
+.md-typeset .mermaid {
+  display: block;
+  margin: 1.6em 0;
+  padding: 1rem .5rem;
+  background: var(--tt-surface);
+  border: 1px solid var(--tt-rule);
+  border-radius: var(--tt-radius);
+  text-align: center;
+  overflow-x: auto;                  /* the wrapper scrolls; the page never does */
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.md-typeset .mermaid > svg { max-width: 100%; height: auto; }
+
+/* -------------------------------------------------- 7. Left sidebar ----- */
+.md-nav { font-size: .72rem; line-height: 1.45; }
+
+.md-nav__title {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Long titles WRAP rather than truncate: Material adds no title attribute,
+   so an ellipsis would hide information with no way to recover it. */
+.md-nav__link {
+  padding: .3rem .45rem;
+  border-radius: var(--tt-radius-sm);
+  color: var(--md-default-fg-color--light);
+  transition: background-color 100ms, color 100ms;
+}
+.md-nav__link:hover,
+.md-nav__link:focus { background: var(--tt-surface); color: var(--md-accent-fg-color); }
+
+/* Module rows read as section labels; lesson rows read as body. */
+.md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link {
+  margin-top: .5rem;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color);
+}
+
+/* Guide rail so a module's lessons read as one group. */
+.md-nav--primary .md-nav__item--nested > .md-nav > .md-nav__list {
+  margin-left: .15rem;
+  padding-left: .45rem;
+  border-left: 1px solid var(--tt-rule);
+}
+
+/* Active leaf: tint + left bar + full-strength text, not colour alone. */
+.md-nav__link--active,
+.md-nav__item--active > .md-nav__link,
+.md-nav__link--active:hover,
+.md-nav__link--active:focus {
+  color: var(--md-typeset-a-color);
+  font-weight: 700;
+  background: var(--tt-nav-active-bg);
+  box-shadow: inset 2px 0 0 var(--md-primary-fg-color);
+}
+
+.md-sidebar__scrollwrap {
+  scrollbar-width: thin;
+  scrollbar-color: var(--tt-rule-strong) transparent;
+}
+.md-sidebar__scrollwrap::-webkit-scrollbar { width: 6px; height: 6px; }
+.md-sidebar__scrollwrap::-webkit-scrollbar-track { background: transparent; }
+.md-sidebar__scrollwrap::-webkit-scrollbar-thumb {
+  background: var(--tt-rule-strong);
+  border-radius: 3px;
+}
+.md-sidebar__scrollwrap::-webkit-scrollbar-thumb:hover {
+  background: var(--md-primary-fg-color--light);
+}
+
+/* -------------------------------------------------- 8. Right-hand TOC --- */
+.md-nav--secondary .md-nav__title {
+  box-shadow: none;
+  border-bottom: 1px solid var(--tt-rule);
+}
+.md-nav--secondary .md-nav__link {
+  padding: .24rem .5rem;
+  border-left: 2px solid transparent;
+  border-radius: 0 var(--tt-radius-sm) var(--tt-radius-sm) 0;
+}
+.md-nav--secondary .md-nav__link--active {
+  border-left-color: var(--md-primary-fg-color);
+  background: var(--tt-nav-active-bg);
+  font-weight: 700;
+  box-shadow: none;
+}
+.md-nav--secondary .md-nav__link--passed { color: var(--md-default-fg-color--lighter); }
+
+/* -------------------------------------------------- 9. Landing cards ---- */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  border-radius: var(--tt-radius);
+  border-color: var(--tt-rule);
+  box-shadow: none;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--md-primary-fg-color--light);
+  box-shadow: var(--tt-shadow);
+}
+.md-typeset .grid.cards > ul > li > hr { margin: .6em 0; }
+
+/* -------------------------------------------------- 10. Mobile ---------- */
+@media screen and (max-width: 76.1875em) {
+  .md-typeset { font-size: .82rem; line-height: 1.68; }
+
+  /* A 76ch cap is meaningless on a phone — let prose use the full width. */
+  .md-typeset > p,
+  .md-typeset > ul,
+  .md-typeset > ol,
+  .md-typeset > blockquote,
+  .md-typeset > h1,
+  .md-typeset > h2,
+  .md-typeset > h3,
+  .md-typeset > h4 { max-width: none; }
+
+  .md-typeset h1 { font-size: 1.55rem; }
+  .md-typeset h2 { font-size: 1.18rem; margin-top: 2.1rem; padding-top: 1rem; }
+  .md-typeset h3 { font-size: 1rem; }
+
+  .md-typeset pre > code { font-size: .72rem; padding: .75rem .8rem; }
+  .md-typeset table:not([class]) { font-size: .72rem; }
+  .md-typeset table:not([class]) th,
+  .md-typeset table:not([class]) td { padding: .5rem .6rem; }
+
+  /* Shrink-to-fit makes a `flowchart LR` illegible on a phone. Let diagrams
+     keep their natural size and scroll inside their own bounded container. */
+  .md-typeset .mermaid { text-align: left; }
+  .md-typeset .mermaid > svg { max-width: none; }
+
+  .md-nav--primary .md-nav__link { padding: .5rem .6rem; font-size: .76rem; }
+}
+
+/* -------------------------------------------------- 11. Reduced motion -- */
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* -------------------------------------------------- Buttons / footer ----- */
+/* Secondary (outline) buttons inherit the primary colour, which is too dark
+   on the slate scheme — the home page's "Browse the full index" was unreadable. */
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary) {
+  color: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+}
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary):hover {
+  color: #fff;
+  background-color: var(--md-primary-fg-color--light);
+  border-color: var(--md-primary-fg-color--light);
+}
+.tt-visitors { white-space: nowrap; }

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://itskrsna.github.io/tech-tutorials/sitemap.xml
