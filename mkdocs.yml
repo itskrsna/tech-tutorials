@@ -107,7 +107,7 @@ validation:
 
 extra:
   # GoatCounter site code (the part before .goatcounter.com). Empty = analytics off.
-  goatcounter: ""
+  goatcounter: "tech-articles"
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/itskrsna
