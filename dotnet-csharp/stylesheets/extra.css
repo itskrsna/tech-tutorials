@@ -433,3 +433,17 @@
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* -------------------------------------------------- Buttons / footer ----- */
+/* Secondary (outline) buttons inherit the primary colour, which is too dark
+   on the slate scheme — the home page's "Browse the full index" was unreadable. */
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary) {
+  color: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+}
+[data-md-color-scheme="slate"] .md-typeset .md-button:not(.md-button--primary):hover {
+  color: #fff;
+  background-color: var(--md-primary-fg-color--light);
+  border-color: var(--md-primary-fg-color--light);
+}
+.tt-visitors { white-space: nowrap; }

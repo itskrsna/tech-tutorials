@@ -12,9 +12,11 @@ docs_dir: dotnet-csharp
 # (221 files) — see mkdocs_hashheader_fix.py for the full explanation.
 hooks:
   - mkdocs_hashheader_fix.py
+  - mkdocs_seo.py
 
 theme:
   name: material
+  custom_dir: overrides
   language: en
   font:
     text: Inter
@@ -104,6 +106,8 @@ validation:
   anchors: warn
 
 extra:
+  # GoatCounter site code (the part before .goatcounter.com). Empty = analytics off.
+  goatcounter: ""
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/itskrsna

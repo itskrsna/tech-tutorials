@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {% set desc = page.meta.description if page and page.meta and page.meta.description else config.site_description %}
+  {% set ptitle = page.title ~ " - " ~ config.site_name if page and page.title and not page.is_homepage else config.site_name %}
+  <meta property="og:type" content="{{ 'website' if page.is_homepage else 'article' }}">
+  <meta property="og:site_name" content="{{ config.site_name }}">
+  <meta property="og:title" content="{{ ptitle }}">
+  <meta property="og:description" content="{{ desc }}">
+  {% if page.canonical_url %}<meta property="og:url" content="{{ page.canonical_url }}">{% endif %}
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ ptitle }}">
+  <meta name="twitter:description" content="{{ desc }}">
+  <meta name="theme-color" content="#512bd4">
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% set gc = config.extra.goatcounter %}
+  {% if gc %}
+  {# Privacy-friendly analytics (no cookies). `no_onload` + the document$ hook
+     below counts every instant-navigation page view, not just the first load. #}
+  <script data-goatcounter="https://{{ gc }}.goatcounter.com/count"
+          data-goatcounter-settings='{"no_onload": true}'
+          async src="//gc.zgo.at/count.js"></script>
+  <script>
+    (function () {
+      var total = "https://{{ gc }}.goatcounter.com/counter/TOTAL.json";
+      function badge() {
+        var host = document.querySelector(".md-copyright");
+        if (!host || host.querySelector(".tt-visitors")) return;
+        var el = document.createElement("span");
+        el.className = "tt-visitors";
+        host.appendChild(el);
+        fetch(total).then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) { if (d && d.count_unique) el.textContent = " · " + d.count_unique + " visitors"; })
+          .catch(function () {});
+      }
+      document$.subscribe(function () {
+        var t = setInterval(function () {
+          if (window.goatcounter && window.goatcounter.count) {
+            clearInterval(t);
+            window.goatcounter.count({ path: location.pathname });
+          }
+        }, 100);
+        setTimeout(function () { clearInterval(t); }, 5000);
+        badge();
+      });
+    })();
+  </script>
+  {% endif %}
+{% endblock %}

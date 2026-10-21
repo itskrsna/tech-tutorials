@@ -173,7 +173,7 @@ flowchart TD
 
 Beyond the two tools this lesson focused on, a few related views are worth knowing where they fit:
 
-1. **[Azure Portal Dashboards](#building-azure-dashboards---a-programming-language-perspective)** — the built-in, no-setup shared view this lesson started with.
+1. **[Azure Portal Dashboards](#building-azure-dashboards-a-programming-language-perspective)** — the built-in, no-setup shared view this lesson started with.
 2. **[Azure Managed Grafana](#azure-portal-dashboards-vs-azure-managed-grafana)** — the richer, increasingly recommended alternative for production observability.
 3. **Azure Workbooks** — interactive, parameterized reports combining multiple queries and visualizations, positioned between a static dashboard and a full BI tool.
 4. **Application Insights Overview blade** — a fixed, pre-built dashboard scoped to a single Application Insights resource, useful before a custom dashboard exists.

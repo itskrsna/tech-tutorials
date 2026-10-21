@@ -27,19 +27,8 @@ catch broken references across all 393 files:
 mkdocs build --strict --site-dir /tmp/site-check
 ```
 
-**Known, pre-existing `--strict` warnings** (unrelated to config/styling, both are
-lesson-content bugs, not fixed here — see Known issues below):
-- `03-collections-generics/03-20-icomparable-and-icomparer.md` links to a filename
-  that doesn't exist (`03-08-sortedlist-and-sorteddictionary.md`; the real file is
-  `03-06-sorteddictionary-and-sortedlist.md`).
-- `16-azure-for-dotnet-developers/16-51-building-azure-dashboards.md` has a
-  self-link to an anchor that doesn't match the heading's actual generated ID
-  (the heading contains an em dash, which slugifies differently than the link
-  assumes).
-
-Because of these two, CI runs a **non-strict** `mkdocs build` as its safety net
-(see Deployment below), not `--strict`. If you fix both, feel free to switch the
-CI step to `--strict` for stronger guarantees going forward.
+The `--strict` build is clean (both previously known broken links were fixed), and
+CI runs it, so a broken cross-lesson link or anchor now blocks the deploy.
 
 ## Deployment
 
@@ -122,9 +111,8 @@ Load-bearing decisions worth preserving when editing it:
   JetBrains Mono ligates `=>`, `!=`, `>=` into single glyphs by default, which
   would misrepresent the actual C# source characters being taught.
 
-## Known issues (pre-existing, not fixed here — out of scope for a styling pass)
+## Known issues
 
-- The two broken cross-references listed under Preview locally above.
 - `mkdocs_hashheader_fix.py` (see next section) fixes a *rendering* bug, not a
   content bug — no lesson files were edited to produce that fix.
 
@@ -139,6 +127,18 @@ rendered as "Classes and Objects in C" with the final character eaten. The hook
 runs before parsing and escapes only that exact pattern (`\#`), leaving genuine
 closed headings (`# Title #`) and everything else untouched. This required no
 edits to any of the 393 lesson files — it's a pure rendering-pipeline fix.
+
+## SEO and analytics
+
+- `mkdocs_seo.py` hook copies each lesson's `summary:` front matter into
+  `description:` (Material only reads the latter) so every page gets its own
+  meta description. `overrides/main.html` adds Open Graph / Twitter tags.
+- `dotnet-csharp/robots.txt` points crawlers at the sitemap (MkDocs generates
+  `sitemap.xml` itself).
+- Visitor counting is GoatCounter (cookie-free). Set `extra.goatcounter` in
+  `mkdocs.yml` to the site code to enable it; empty means off. It also shows a
+  public visitor count in the footer, which requires "Allow adding visitor
+  counts on your website" in the GoatCounter settings.
 
 ## Gotchas
 

@@ -246,7 +246,7 @@ flowchart LR
 
 Sorting and comparison show up in more forms than just these two interfaces — several are worth knowing about even though they aren't the focus of this lesson:
 
-1. **[SortedList<TKey, TValue> and SortedDictionary<TKey, TValue>](../03-collections-generics/03-08-sortedlist-and-sorteddictionary.md)** — key/value collections that stay ordered by key using the same comparison mechanics covered here.
+1. **[SortedList<TKey, TValue> and SortedDictionary<TKey, TValue>](../03-collections-generics/03-06-sorteddictionary-and-sortedlist.md)** — key/value collections that stay ordered by key using the same comparison mechanics covered here.
 2. **`Comparer<T>.Default`** — the static property .NET uses internally to fall back to a type's `IComparable<T>` implementation when no explicit comparer is supplied.
 3. **`Comparer<T>.Create(Comparison<T>)`** — a shortcut for building a lightweight, throwaway `IComparer<T>` from a single lambda instead of a full class.
 4. **`IEquatable<T>`** — a related but distinct interface for equality rather than ordering; a type can implement both independently.

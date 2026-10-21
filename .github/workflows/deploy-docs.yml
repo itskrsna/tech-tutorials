@@ -22,8 +22,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      # Non-strict: two pre-existing content links/anchors already fail
-      # --strict (unrelated to CI/CD config) and shouldn't block deploys.
-      - run: mkdocs build
+      # Strict: broken cross-lesson links/anchors fail the build before deploy.
+      - run: mkdocs build --strict
 
       - run: mkdocs gh-deploy --force --clean
